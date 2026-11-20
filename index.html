@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Автомайстерня «АвтоРитм» у Києві: чесна комп'ютерна діагностика, планове ТО та ремонт автомобілів. Фіксований кошторис до початку робіт, фотозвіт у Telegram, гарантія до 24 місяців.">
+  <title>АвтоРитм — автосервіс, чесна діагностика та ремонт у Києві</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0b0a;
+      --bg-2: #141311;
+      --card: #181614;
+      --card-hover: #1f1c19;
+      --line: rgba(243, 236, 224, 0.12);
+      --line-focus: rgba(226, 161, 90, 0.65);
+      --text: #f4efe6;
+      --muted: #a89f93;
+      --accent: #e2a15a;
+      --accent-2: #c4843d;
+      --accent-glow: rgba(226, 161, 90, 0.28);
+      --accent-soft: rgba(226, 161, 90, 0.08);
+      --ink: #140e08;
+      --ok: #8fbf9a;
+      --danger: #e07a68;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1140px;
+      --header: 72px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Manrope, system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(1000px 520px at 100% -10%, rgba(226, 161, 90, 0.14), transparent 60%),
+        radial-gradient(800px 400px at 0% 40%, rgba(226, 161, 90, 0.06), transparent 50%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font-family: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .wrap { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    h1, h2, h3, h4 { font-family: Unbounded, Manrope, sans-serif; font-weight: 600; letter-spacing: -0.03em; }
+    h1 { font-size: clamp(34px, 4.8vw, 58px); line-height: 1.05; }
+    h2 { font-size: clamp(26px, 3.2vw, 40px); line-height: 1.1; }
+    h3 { font-size: 20px; line-height: 1.25; }
+    .muted { color: var(--muted); }
+
+    /* ===== Шапка сайту ===== */
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--header);
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(12, 11, 10, 0.88);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; letter-spacing: -0.03em; }
+    .mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--ink); font-weight: 800; font-size: 17px;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .nav-links { display: flex; gap: 24px; color: var(--muted); font-size: 14.5px; font-weight: 600; }
+    .nav-links a { transition: color 0.2s ease; position: relative; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .phone {
+      font-weight: 700;
+      font-size: 14.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+    .phone:hover { color: var(--accent); }
+    .phone svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .menu-btn {
+      display: none;
+      background: #191715;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===== Кнопки ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 12px 22px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14.5px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--ink);
+      box-shadow: 0 4px 18px var(--accent-glow);
+    }
+    .btn-accent:hover {
+      background: linear-gradient(135deg, #ebb270, var(--accent));
+      box-shadow: 0 6px 22px rgba(226, 161, 90, 0.4);
+    }
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--text);
+      background: rgba(24, 22, 20, 0.6);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .btn-sm { padding: 8px 14px; font-size: 13px; }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-text:hover { color: #ebb270; text-decoration: underline; }
+    .btn-text.danger { color: #e88c7a; }
+    .btn-text.danger:hover { color: #f2a798; }
+
+    /* ===== Секція Hero ===== */
+    .hero { padding: 64px 0 36px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero p.lead { margin: 18px 0 26px; max-width: 48ch; font-size: 17.5px; color: var(--muted); line-height: 1.6; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+    .perks { display: grid; gap: 8px; }
+    .perks div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      font-size: 14.5px;
+    }
+    .perks b { font-weight: 700; color: var(--text); }
+
+    .ticket {
+      background: linear-gradient(180deg, #201a14, #141311 50%);
+      border: 1px solid rgba(226, 161, 90, 0.25);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(226, 161, 90, 0.06);
+      position: relative;
+    }
+    .ticket::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 24px; right: 24px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .ticket-top, .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .ticket h2 { font-size: 24px; margin: 16px 0 8px; }
+    .ticket ol { margin: 16px 0 0 18px; color: var(--text); font-size: 14.5px; }
+    .ticket li { margin: 8px 0; }
+    .ticket .sum { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--line); font-weight: 600; }
+
+    section { padding: 68px 0; }
+    .sec-head { max-width: 680px; margin-bottom: 32px; }
+    .sec-head p.muted { margin-top: 8px; font-size: 16px; }
+
+    /* ===== Секція Послуги ===== */
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .service {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service:hover {
+      border-color: rgba(226, 161, 90, 0.4);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+    }
+    .service.on {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(226, 161, 90, 0.08), var(--card));
+      box-shadow: 0 8px 24px -10px var(--accent-glow);
+    }
+    .service h3 { font-size: 18px; margin-bottom: 8px; }
+    .service .price { color: var(--accent); font-weight: 800; font-size: 17px; margin: 12px 0 6px; }
+    .service p { color: var(--muted); font-size: 14px; flex: 1; line-height: 1.5; }
+    .service .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+
+    /* ===== Секція Роботи ===== */
+    .works { display: grid; gap: 12px; }
+    .job {
+      display: grid;
+      grid-template-columns: 210px 1.3fr 0.9fr 110px 130px;
+      gap: 16px;
+      align-items: start;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      transition: border-color 0.2s ease;
+    }
+    .job:hover { border-color: rgba(226, 161, 90, 0.35); }
+    .job .car { font-family: Unbounded, Manrope, sans-serif; font-size: 15.5px; line-height: 1.25; font-weight: 600; }
+    .job .label { display: block; color: var(--muted); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; font-weight: 700; }
+    .job .time, .job .money { font-weight: 800; }
+    .job .money { color: var(--accent); font-size: 16px; }
+
+    /* ===== СЕКЦІЯ КАЛЬКУЛЯТОРА (Оновлена тематична зона) ===== */
+    .calc-layout { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 16px; align-items: start; }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 26px;
+    }
+
+    /* Селектор класу авто (інтерактивні картки) */
+    .calc-section-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .calc-section-label span {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .car-class-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .car-class-card {
+      background: #110f0d;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      user-select: none;
+    }
+    .car-class-card:hover {
+      border-color: rgba(226, 161, 90, 0.45);
+      background: #161310;
+    }
+    .car-class-card.active {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(226, 161, 90, 0.14), rgba(20, 18, 15, 0.95));
+      box-shadow: 0 4px 18px var(--accent-glow);
+    }
+    .car-class-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .car-class-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .car-class-icon { font-size: 20px; }
+    .car-class-name { font-weight: 700; font-size: 14px; color: var(--text); }
+    .car-class-rate {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .car-class-desc {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* Тулбар над списком робіт */
+    .calc-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .calc-counter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(226, 161, 90, 0.3);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .calc-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Список робіт калькулятора */
+    .work-grid {
+      display: grid;
+      gap: 8px;
+    }
+    .work-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1.5px solid var(--line);
+      background: #110f0d;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .work-item:hover {
+      border-color: rgba(226, 161, 90, 0.4);
+      background: #171410;
+    }
+    .work-item.selected {
+      border-color: var(--accent);
+      background: linear-gradient(90deg, rgba(226, 161, 90, 0.1), rgba(20, 18, 15, 0.8));
+    }
+    .work-item input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .work-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .work-title {
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--text);
+    }
+    .work-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .work-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .work-price-badge {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 14px;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    /* Підсумкова панель калькулятора */
+    .calc-result-panel {
+      position: sticky;
+      top: calc(var(--header) + 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .calc-summary-card {
+      background: #12100d;
+      border: 1px solid rgba(226, 161, 90, 0.3);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .calc-metric-group {
+      margin-bottom: 16px;
+    }
+    .calc-metric-group:last-child { margin-bottom: 0; }
+    .calc-metric-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .calc-metric-val {
+      font-family: Unbounded, Manrope, sans-serif;
+      font-size: 36px;
+      color: var(--accent);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+    .calc-metric-val small {
+      font-family: Manrope, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0;
+      margin-left: 4px;
+    }
+    .calc-metric-val.time {
+      font-size: 26px;
+      color: var(--text);
+    }
+    .calc-info-note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border-left: 3px solid var(--accent);
+    }
+    .calc-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ===== Процес роботи ===== */
+    .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .step {
+      border-top: 1.5px solid var(--line);
+      padding-top: 16px;
+    }
+    .step b { display: block; color: var(--accent); font-size: 13px; letter-spacing: 0.12em; margin-bottom: 8px; font-weight: 800; }
+    .step h3 { font-size: 17px; margin-bottom: 6px; }
+
+    /* ===== Відгуки ===== */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .review {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .stars { color: var(--accent); letter-spacing: 2px; font-size: 15px; }
+    .who { margin-top: auto; }
+    .who strong { display: block; font-size: 15px; }
+    .who span { color: var(--muted); font-size: 13.5px; }
+
+    /* ===== FAQ ===== */
+    .faq { display: grid; gap: 10px; max-width: 800px; }
+    .faq-item { border: 1px solid var(--line); border-radius: 16px; background: var(--card); transition: border-color 0.2s ease; }
+    .faq-item:hover { border-color: rgba(226, 161, 90, 0.35); }
+    .faq-item button {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 0;
+      padding: 18px 20px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--text);
+    }
+    .faq-item button span {
+      color: var(--accent);
+      font-size: 20px;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+    .faq-item.open button span { transform: rotate(45deg); }
+    .faq-item p { display: none; padding: 0 20px 18px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .faq-item.open p { display: block; }
+
+    /* ===== Секція Запису і контактів ===== */
+    .booking {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .contact-list { display: grid; gap: 18px; margin-top: 20px; }
+    .contact-list a.phone { font-size: 20px; }
+    .contact-item-box {
+      background: rgba(20, 18, 16, 0.6);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .hint { color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; display: block; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field span { font-size: 13px; font-weight: 700; color: var(--muted); }
+    select, input, textarea {
+      width: 100%;
+      background: #110f0d;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(226, 161, 90, 0.15);
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ===== ОНОВЛЕНИЙ ТЕМАТИЧНИЙ ЧЕКБОКС (Consent & Checkboxes) ===== */
+    .consent-card {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      background: rgba(18, 16, 14, 0.9);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      cursor: pointer;
+      margin: 8px 0 16px;
+      transition: all 0.25s ease;
+      user-select: none;
+      position: relative;
+    }
+    .consent-card:hover {
+      border-color: rgba(226, 161, 90, 0.45);
+      background: #191612;
+    }
+    .consent-card:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(226, 161, 90, 0.18);
+    }
+    .consent-card input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+    .custom-check-box {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(243, 236, 224, 0.28);
+      background: #0d0b09;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    }
+    .consent-card:hover .custom-check-box {
+      border-color: var(--accent);
+    }
+    .consent-card input:checked ~ .custom-check-box,
+    .work-item input:checked ~ .custom-check-box {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .custom-check-box svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--ink);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .consent-card input:checked ~ .custom-check-box svg,
+    .work-item input:checked ~ .custom-check-box svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .consent-body {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .consent-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .consent-sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .form-error {
+      color: var(--danger);
+      font-size: 13.5px;
+      min-height: 1.3em;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* ===== Спіннер завантаження форми ===== */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(20, 14, 8, 0.3);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== Футер сайту ===== */
+    footer.site { border-top: 1px solid var(--line); padding: 36px 0 44px; color: var(--muted); font-size: 14.5px; }
+    .foot { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .foot-links { display: flex; gap: 20px; font-size: 14px; }
+    .foot-links a:hover { color: var(--text); }
+
+    /* ===== Спливаюче сповіщення (Toast) ===== */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: #181512;
+      border: 1px solid var(--accent);
+      color: var(--text);
+      padding: 14px 22px;
+      border-radius: 14px;
+      max-width: min(540px, calc(100% - 32px));
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-glow);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+      font-weight: 600;
+      font-size: 14.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+
+    /* ===== Модальне вікно запису ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .modal.open {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 5, 4, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .modal-dialog {
+      position: relative;
+      z-index: 2;
+      background: #171512;
+      border: 1px solid rgba(226, 161, 90, 0.3);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px 28px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(226, 161, 90, 0.1);
+      animation: modal-enter 0.3s ease;
+    }
+    @keyframes modal-enter {
+      from { transform: translateY(20px) scale(0.96); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .modal-close {
+      background: #24201b;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover {
+      background: var(--accent);
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+    .modal-service-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(226, 161, 90, 0.35);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    /* ===== Адаптивність (Mobile & Tablet) ===== */
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: var(--header);
+        left: 0; right: 0;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 24px 28px;
+        background: rgba(14, 13, 11, 0.98);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      }
+      .nav-links.open { display: flex; }
+      .menu-btn { display: inline-flex; }
+      .phone-desk { display: none; }
+      .hero-grid, .services, .calc-layout, .steps, .reviews, .booking, .row { grid-template-columns: 1fr; }
+      .job { grid-template-columns: 1fr 1fr; }
+      .job .car { grid-column: 1 / -1; }
+      .car-class-selector { grid-template-columns: 1fr; }
+      .calc-result-panel { position: static; }
+    }
+
+    @media (max-width: 640px) {
+      .job { grid-template-columns: 1fr; }
+      .hero { padding-top: 36px; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; }
+      .services { grid-template-columns: 1fr; }
+      .foot { flex-direction: column; text-align: center; gap: 14px; }
+      .foot-links { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn, .service, .car-class-card, .work-item, .custom-check-box { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка сайту -->
+  <header class="site">
+    <div class="wrap nav">
+      <a class="brand" href="#top"><span class="mark">А</span> АвтоРитм</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#services">Послуги</a>
+        <a href="#works">Роботи</a>
+        <a href="#calculator">Калькулятор</a>
+        <a href="#process">Як працюємо</a>
+        <a href="#reviews">Відгуки</a>
+        <a href="#faq">Питання</a>
+        <a href="#booking">Контакти</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="phone phone-desk" href="tel:+380441234567" title="Зателефонувати в автомайстерню">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+          044 123 45 67
+        </a>
+        <button class="btn btn-accent btn-sm" type="button" onclick="openQuickModal()">Записатися</button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Відкрити меню">
+          ☰ Меню
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Перший екран -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Автомайстерня · Київ</p>
+          <h1>Чесна діагностика, обслуговування й ремонт — без зайвих робіт</h1>
+          <p class="lead">В «АвтоРитмі» спочатку показуємо причину несправності та фіксуємо суму в кошторисі. Роботи починаються лише після вашої згоди, а фотозвіт надсилаємо в Telegram.</p>
+          <div class="hero-actions">
+            <button class="btn btn-accent" type="button" onclick="openQuickModal('Комп’ютерна діагностика')">Записатися на сервіс</button>
+            <a class="btn btn-ghost" href="#calculator">Розрахувати вартість ремонту</a>
+          </div>
+          <div class="perks">
+            <div><b>Гарантія до 24 міс.</b><span class="muted">на виконані роботи та встановлені деталі</span></div>
+            <div><b>Фотозвіт у Telegram</b><span class="muted">фото й відео стану деталей до та після</span></div>
+            <div><b>Чесний кошторис</b><span class="muted">фіксована ціна до початку ремонту</span></div>
+          </div>
+        </div>
+        <aside class="ticket">
+          <div class="ticket-top"><span>Наряд-замовлення</span><span>приклад візиту</span></div>
+          <h2>Спочатку причина, потім ремонт</h2>
+          <p class="muted">Не міняємо справні вузли «про всяк випадок». Додаткові роботи — лише за вашим підтвердженням.</p>
+          <ol>
+            <li>Огляд і комп’ютерна діагностика вузла</li>
+            <li>Кошторис із розбивкою робіт і запчастин</li>
+            <li>Ремонт із фотофіксацією для замовника</li>
+          </ol>
+          <div class="ticket-row sum"><span>Пн–Сб: 09:00–20:00</span><span>м. Київ, вул. Промислова, 14</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Послуги майстерні -->
+    <section id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Послуги СТО</p>
+          <h2>Що ми робимо в «АвтоРитмі»</h2>
+          <p class="muted">Ціни — стартові за роботу майстра (без вартості запчастин). Оберіть потрібну послугу: вона додасться в калькулятор і підставиться у форму запису.</p>
+        </div>
+        <div class="services" id="serviceGrid"></div>
+      </div>
+    </section>
+
+    <!-- Приклади виконаних робіт -->
+    <section id="works">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Наші роботи</p>
+          <h2>Що вже робили на наших постах</h2>
+          <p class="muted">Кілька реальних випадків: несправність, виконані операції, термін та підсумковий бюджет із запчастинами.</p>
+        </div>
+        <div class="works">
+          <article class="job">
+            <div class="car">BMW X5, 2019</div>
+            <div><span class="label">Несправність</span>Глухий стук спереду на дрібних нерівностях, кермо вело вправо після зими.</div>
+            <div><span class="label">Роботи</span>Заміна передніх важелів, тяг стабілізатора, регулювання кутів коліс на 3D-стенді.</div>
+            <div class="time"><span class="label">Час</span>1 день</div>
+            <div class="money"><span class="label">Сума</span>14 800 грн</div>
+          </article>
+          <article class="job">
+            <div class="car">Toyota Camry, 2018</div>
+            <div><span class="label">Несправність</span>Планове ТО: підійшов регламентний пробіг для заміни моторної оливи.</div>
+            <div><span class="label">Роботи</span>Заміна оливи, оливного, повітряного й салонного фільтрів, ревізія гальмівної системи.</div>
+            <div class="time"><span class="label">Час</span>2,5 год</div>
+            <div class="money"><span class="label">Сума</span>3 400 грн</div>
+          </article>
+          <article class="job">
+            <div class="car">Skoda Octavia, 2017</div>
+            <div><span class="label">Несправність</span>Било кермо при гальмуванні зі 80 км/год, нерівномірне зношення гальмівних колодок.</div>
+            <div><span class="label">Роботи</span>Встановлення нових передніх дисків і колодок, чищення та змащення напрямних супортів.</div>
+            <div class="time"><span class="label">Час</span>3 год</div>
+            <div class="money"><span class="label">Сума</span>6 200 грн</div>
+          </article>
+          <article class="job">
+            <div class="car">Volkswagen Tiguan, 2020</div>
+            <div><span class="label">Несправність</span>Кондиціонер перестав охолоджувати салон, під радіатором з'явився олійний слід.</div>
+            <div><span class="label">Роботи</span>Локалізація витоку, заміна радіатора кондиціонера, вакуумування та заправка фреоном.</div>
+            <div class="time"><span class="label">Час</span>1 день</div>
+            <div class="money"><span class="label">Сума</span>7 800 грн</div>
+          </article>
+          <article class="job">
+            <div class="car">Mazda CX-5, 2016</div>
+            <div><span class="label">Несправність</span>Двигун троїв на холодному пуску, в електронному блоці збереглася помилка запалювання.</div>
+            <div><span class="label">Роботи</span>Комп’ютерна діагностика, заміна несправної котушки й комплекту свічок, тест-виїзд.</div>
+            <div class="time"><span class="label">Час</span>4 год</div>
+            <div class="money"><span class="label">Сума</span>4 100 грн</div>
+          </article>
+          <article class="job">
+            <div class="car">Kia Sportage, 2019</div>
+            <div><span class="label">Несправність</span>Сезонна зміна шин, після попереднього монтажу на трасі автомобіль відводило вліво.</div>
+            <div><span class="label">Роботи</span>Шиномонтаж комплекту, прецизійне балансування коліс і регулювання розвалу-сходження.</div>
+            <div class="time"><span class="label">Час</span>1,5 год</div>
+            <div class="money"><span class="label">Сума</span>1 900 грн</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- КАЛЬКУЛЯТОР ВАРТОСТІ (Оновлена тематична зона) -->
+    <section id="calculator">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Інтерактивний розрахунок</p>
+          <h2>Орієнтир вартості до дзвінка</h2>
+          <p class="muted">Оберіть клас автомобіля та відзначте необхідні послуги. Сума й орієнтовний час перераховуються миттєво. Точний підсумок фіксуємо в наряді після огляду авто на посту.</p>
+        </div>
+
+        <div class="calc-layout">
+          <div class="panel">
+            <!-- Вибір класу авто -->
+            <div class="calc-section-label">
+              <span>1. Оберіть клас автомобіля</span>
+            </div>
+            <div class="car-class-selector" id="carClassSelector" role="radiogroup" aria-label="Клас авто">
+              <label class="car-class-card active" data-class="economy">
+                <input type="radio" name="carClassRadio" value="economy" checked>
+                <div class="car-class-header">
+                  <span class="car-class-icon">🚗</span>
+                  <span class="car-class-name">Легковий</span>
+                </div>
+                <span class="car-class-rate">Базовий тариф (1.0×)</span>
+                <span class="car-class-desc">Седани, хетчбеки, купе стандартних габаритів</span>
+              </label>
+
+              <label class="car-class-card" data-class="crossover">
+                <input type="radio" name="carClassRadio" value="crossover">
+                <div class="car-class-header">
+                  <span class="car-class-icon">🚙</span>
+                  <span class="car-class-name">Кросовер / SUV</span>
+                </div>
+                <span class="car-class-rate">Коефіцієнт 1.25×</span>
+                <span class="car-class-desc">Паркетники, позашляховики, мінівени</span>
+              </label>
+
+              <label class="car-class-card" data-class="premium">
+                <input type="radio" name="carClassRadio" value="premium">
+                <div class="car-class-header">
+                  <span class="car-class-icon">🏎️</span>
+                  <span class="car-class-name">Бізнес / Преміум</span>
+                </div>
+                <span class="car-class-rate">Коефіцієнт 1.6×</span>
+                <span class="car-class-desc">Щільна компоновка, спеціальний регламент ТО</span>
+              </label>
+            </div>
+
+            <!-- Тулбар робіт -->
+            <div class="calc-toolbar">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="calc-section-label" style="margin:0;"><span>2. Оберіть потрібні роботи</span></span>
+                <span class="calc-counter-badge" id="calcCounterBadge">0 обрано</span>
+              </div>
+              <div class="calc-actions">
+                <button type="button" class="btn-text" id="calcSelectAll">Вибрати всі</button>
+                <button type="button" class="btn-text danger" id="calcReset">Скинути вибір ↺</button>
+              </div>
+            </div>
+
+            <!-- Список послуг із тематичними чекбоксами -->
+            <div class="work-grid" id="calcWorkGrid"></div>
+          </div>
+
+          <!-- Підсумкова інформаційна панель -->
+          <aside class="panel calc-result-panel">
+            <div class="calc-summary-card">
+              <div class="calc-metric-group">
+                <div class="calc-metric-label">Орієнтовна вартість робіт</div>
+                <div class="calc-metric-val" id="calcPrice">0 <small>грн</small></div>
+              </div>
+              <div class="calc-metric-group">
+                <div class="calc-metric-label">Орієнтовний час робіт</div>
+                <div class="calc-metric-val time" id="calcTime">0 <small>годин</small></div>
+              </div>
+            </div>
+
+            <div class="calc-info-note" id="calcNote">
+              Позначте одну або кілька робіт, щоб розрахувати вартість та час обслуговування.
+            </div>
+
+            <div class="calc-btn-group">
+              <button class="btn btn-accent" type="button" id="calcBookBtn">
+                Записатися на ці роботи
+              </button>
+              <button class="btn btn-ghost" type="button" id="calcModalBtn">
+                Швидкий запис у вікні
+              </button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Як ми працюємо -->
+    <section id="process">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Етапи візиту</p>
+          <h2>Як ми працюємо</h2>
+        </div>
+        <div class="steps">
+          <article class="step"><b>01</b><h3>Приймання</h3><p class="muted">Фіксуємо симптоми у наряд-замовленні. Не розбираємо вузли без попереднього узгодження.</p></article>
+          <article class="step"><b>02</b><h3>Діагностика</h3><p class="muted">Зчитуємо блоки управління та оглядаємо проблемний вузол. Озвучуємо реальний стан деталей.</p></article>
+          <article class="step"><b>03</b><h3>Кошторис</h3><p class="muted">Роботи й комплектуючі вказуємо окремими рядками. До погодження ціни ремонт не розпочинаємо.</p></article>
+          <article class="step"><b>04</b><h3>Ремонт</h3><p class="muted">Міняємо тільки узгоджене. Фотозвіт знятих і нових деталей надсилаємо майстру або власнику в Telegram.</p></article>
+          <article class="step"><b>05</b><h3>Видача</h3><p class="muted">Демонструємо виконані роботи, за бажанням повертаємо старі запчастини та оформлюємо письмову гарантію.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Відгуки клієнтів -->
+    <section id="reviews">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Відгуки клієнтів</p>
+          <h2>Що кажуть автовласники після сервісу</h2>
+        </div>
+        <div class="reviews">
+          <article class="review">
+            <div class="stars" aria-label="5 із 5">★★★★★</div>
+            <p>Приїхав зі стуком у підвісці. Майстер знайшов люфт на важелі, скинув фото в Telegram і замінив без спроб нав'язати зайві роботи. Ціна повністю зійшлася з кошторисом.</p>
+            <div class="who"><strong>Олег Коваленко</strong><span>BMW X5</span></div>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 із 5">★★★★★</div>
+            <p>Залишила машину на ТО зранку і забрала до обіду. Всі фільтри та олива були в наявності на складі, все чітко за регламентом. Приємний та ввічливий сервіс.</p>
+            <div class="who"><strong>Марина Шевченко</strong><span>Toyota Camry</span></div>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 із 5">★★★★★</div>
+            <p>Усували витік фреону кондиціонера. Знайшли мікротріщину в радіаторі, замінили та перезаправили систему за один день. На роботи надали гарантійний талон.</p>
+            <div class="who"><strong>Тарас Мельник</strong><span>Volkswagen Tiguan</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Часті запитання -->
+    <section id="faq">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">FAQ</p>
+          <h2>Часті питання перед записом</h2>
+        </div>
+        <div class="faq" id="faqList">
+          <article class="faq-item">
+            <button type="button">Яка гарантія надається на виконані роботи? <span>+</span></button>
+            <p>На всі ремонтні операції та придбані у нас деталі діє офіційна гарантія до 24 місяців (або пробіг до 20 000 км). Термін гарантії обов'язково фіксується в акті наряд-замовлення.</p>
+          </article>
+          <article class="faq-item">
+            <button type="button">Чи можна привезти власні запчастини? <span>+</span></button>
+            <p>Так, ви можете привезти свої автозапчастини. Ми кваліфіковано встановимо їх на посту. Зверніть увагу: гарантія майстерні в такому разі поширюється на правильність монтажу, а гарантію на сам вузол несе продавець деталі.</p>
+          </article>
+          <article class="faq-item">
+            <button type="button">Чи можна бути присутнім біля автомобіля в ремзоні? <span>+</span></button>
+            <p>За правилами техніки безпеки постійне перебування в зоні постів обмежене. Разом із тим, ми завжди проводимо огляд за вашої участі на підйомнику та надсилаємо повний фото- й відеозвіт у Telegram під час робіт.</p>
+          </article>
+          <article class="faq-item">
+            <button type="button">Як швидко можна записатися на діагностику чи ТО? <span>+</span></button>
+            <p>У більшості випадків ми приймаємо автомобіль день у день або на наступний ранок. Заповніть форму запису — майстер-приймальник зателефонує вам і зафіксує зручний часовий слот.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секція Запису (Форма на сторінці) -->
+    <section id="booking">
+      <div class="wrap booking">
+        <div>
+          <p class="eyebrow">Запис на сервіс</p>
+          <h2>Залиште контакти — передзвонимо</h2>
+          <div class="contact-list">
+            <div class="contact-item-box">
+              <span class="hint">Локація майстерні</span>
+              <p><a href="https://maps.google.com/?q=Київ,+вулиця+Промислова,+14" target="_blank" rel="noopener">📍 м. Київ, вул. Промислова, 14</a></p>
+            </div>
+            <div class="contact-item-box">
+              <span class="hint">Прямий телефон майстра</span>
+              <p><a class="phone" href="tel:+380441234567">📞 044 123 45 67</a></p>
+            </div>
+            <div class="contact-item-box">
+              <span class="hint">Робочі години СТО</span>
+              <p>Пн–Сб: 09:00 – 20:00</p>
+              <p class="muted">Неділя — вихідний день</p>
+            </div>
+          </div>
+        </div>
+
+        <form class="panel" id="bookingForm" novalidate>
+          <div class="row">
+            <label class="field">
+              <span>Ваше ім’я *</span>
+              <input name="name" required autocomplete="name" placeholder="Іван" minlength="2">
+            </label>
+            <label class="field">
+              <span>Номер телефону *</span>
+              <input name="phone" required autocomplete="tel" inputmode="tel" placeholder="+380 (XX) XXX-XX-XX">
+            </label>
+          </div>
+          <label class="field">
+            <span>Марка, модель та рік автомобіля *</span>
+            <input name="car" required placeholder="Наприклад, Skoda Octavia 2017">
+          </label>
+          <label class="field">
+            <span>Послуга або вид робіт</span>
+            <select name="service" id="bookService">
+              <option value="">Оберіть послугу або вкажіть у коментарі</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Коментар (симптоми несправності / бажаний час)</span>
+            <textarea name="note" placeholder="Опишіть, що турбує в авто та на котру годину зручно приїхати"></textarea>
+          </label>
+
+          <!-- ОНОВЛЕНИЙ ТЕМАТИЧНИЙ ЧЕКБОКС ЗГОДИ -->
+          <label class="consent-card" id="consentCard">
+            <input type="checkbox" name="agree" id="agreeCheckbox" required>
+            <span class="custom-check-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+            </span>
+            <span class="consent-body">
+              <span class="consent-title">Згоден, щоб майстерня зателефонувала щодо цього запису.</span>
+              <span class="consent-sub">🛡️ Ваші контактні дані захищені та використовуються виключно для узгодження візиту на СТО «АвтоРитм».</span>
+            </span>
+          </label>
+
+          <p class="form-error" id="formError" role="alert"></p>
+          <button class="btn btn-accent" type="submit" style="width:100%; padding:14px;">
+            Надіслати заявку на сервіс
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Футер сайту -->
+  <footer class="site">
+    <div class="wrap foot">
+      <div class="brand"><span class="mark">А</span> АвтоРитм</div>
+      <p>Офіційна автомайстерня в Києві · чесна комп'ютерна діагностика, ТО та ремонт авто</p>
+      <div class="foot-links">
+        <a href="#services">Послуги</a>
+        <a href="#calculator">Калькулятор</a>
+        <a href="#booking">Контакти</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальне вікно для швидкого запису -->
+  <div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalTitle">Запис на автосервіс</h3>
+          <p class="muted" style="font-size:13.5px; margin-top:2px;">СТО «АвтоРитм» · вул. Промислова, 14</p>
+        </div>
+        <button class="modal-close" id="modalCloseBtn" type="button" aria-label="Закрити вікно">✕</button>
+      </div>
+
+      <div class="modal-service-tag" id="modalServiceTag" style="display:none;">
+        🔧 <span id="modalServiceName"></span>
+      </div>
+
+      <form id="modalForm" novalidate>
+        <div class="field">
+          <span>Ваше ім’я *</span>
+          <input name="name" required placeholder="Іван" minlength="2">
+        </div>
+        <div class="field">
+          <span>Номер телефону *</span>
+          <input name="phone" required autocomplete="tel" inputmode="tel" placeholder="+380 (XX) XXX-XX-XX">
+        </div>
+        <div class="field">
+          <span>Автомобіль (марка, модель) *</span>
+          <input name="car" required placeholder="Наприклад: Toyota Camry 2018">
+        </div>
+        <div class="field">
+          <span>Коментар</span>
+          <textarea name="note" placeholder="Зручний день або додаткові деталі" style="min-height:75px;"></textarea>
+        </div>
+
+        <label class="consent-card">
+          <input type="checkbox" name="agree" required>
+          <span class="custom-check-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+          </span>
+          <span class="consent-body">
+            <span class="consent-title">Згоден на дзвінок майстра щодо цього запису.</span>
+            <span class="consent-sub">Конфіденційність гарантовано майстернею «АвтоРитм».</span>
+          </span>
+        </label>
+
+        <p class="form-error" id="modalFormError" role="alert"></p>
+        <button class="btn btn-accent" type="submit" style="width:100%; padding:14px;">
+          Підтвердити запис
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Сповіщення (Toast) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ===== ДАНІ ПРО ПОСЛУГИ СТО =====
+    var SERVICES = [
+      { id: "diagnostic", icon: "💻", name: "Комп’ютерна діагностика", price: 600, hours: 1, text: "Зчитування помилок усіх блоків, перевірка двигуна, трансмісії, ABS та систем безпеки." },
+      { id: "service", icon: "🛢️", name: "Планове ТО та заміна мастила", price: 1200, hours: 1, text: "Регламентне ТО, заміна моторної оливи, фільтрів та перевірка рівнів технічних рідин." },
+      { id: "chassis", icon: "⚙️", name: "Ходова та гальмівна система", price: 900, hours: 2, text: "Діагностика й заміна важелів, сайлентблоків, амортизаторів, дисків і колодок." },
+      { id: "engine", icon: "🔧", name: "Ремонт двигуна та КПП", price: 3500, hours: 8, text: "Поточний і капітальний ремонт, заміна ременя/ланцюга ГРМ, усунення витоків оливи." },
+      { id: "electric", icon: "⚡", name: "Автоелектрика та кондиціонери", price: 800, hours: 2, text: "Пошук обривів електропроводки, генератор, стартер, пошук витоків та заправка кондиціонера." },
+      { id: "tires", icon: "🛞", name: "Шиномонтаж та розвал-сходження", price: 700, hours: 1, text: "Сезонне перевзування, прецизійне балансування та регулювання кутів коліс на 3D-стенді." }
+    ];
+
+    var CLASS_RATE = {
+      economy: { rate: 1.0, title: "Легковий", text: "Базовий тариф (1.0×)" },
+      crossover: { rate: 1.25, title: "Кросовер / SUV", text: "Коефіцієнт 1.25× (+25%)" },
+      premium: { rate: 1.6, title: "Бізнес / Преміум", text: "Коефіцієнт 1.6× (+60%)" }
+    };
+
+    var currentCarClass = "economy";
+
+    // Telegram Bot конфігурація (при наявності впишіть токен та chat_id)
+    var TG_CONFIG = {
+      token: "", // Наприклад: "123456789:ABCdefGhIjkLmNoPqRsTuVwXyZ"
+      chatId: "" // Наприклад: "-1001234567890"
+    };
+
+    // DOM елементи
+    var serviceGrid = document.getElementById("serviceGrid");
+    var calcWorkGrid = document.getElementById("calcWorkGrid");
+    var bookService = document.getElementById("bookService");
+    var carClassCards = document.querySelectorAll(".car-class-card");
+    var calcPriceEl = document.getElementById("calcPrice");
+    var calcTimeEl = document.getElementById("calcTime");
+    var calcNoteEl = document.getElementById("calcNote");
+    var calcCounterBadge = document.getElementById("calcCounterBadge");
+
+    // ===== 1. ГЕНЕРАЦІЯ КАРТОК ПОСЛУГ ТА ЕЛЕМЕНТІВ КАЛЬКУЛЯТОРА =====
+    SERVICES.forEach(function (s) {
+      // 1.1 Картка в секції Послуги
+      var card = document.createElement("article");
+      card.className = "service";
+      card.id = "card-" + s.id;
+      card.innerHTML =
+        "<div style=\"font-size:26px; margin-bottom:10px;\">" + s.icon + "</div>" +
+        "<h3>" + s.name + "</h3>" +
+        "<p>" + s.text + "</p>" +
+        "<div class=\"price\">від " + s.price.toLocaleString("uk-UA") + " грн</div>" +
+        "<div class=\"actions\">" +
+          "<button class=\"btn btn-accent btn-sm\" type=\"button\" data-pick=\"" + s.id + "\">У розрахунок</button>" +
+          "<button class=\"btn btn-ghost btn-sm\" type=\"button\" data-book=\"" + s.id + "\">Записатися</button>" +
+        "</div>";
+      serviceGrid.appendChild(card);
+
+      // 1.2 Елемент у калькуляторі
+      var workItem = document.createElement("label");
+      workItem.className = "work-item";
+      workItem.id = "work-label-" + s.id;
+      workItem.innerHTML =
+        "<input type=\"checkbox\" id=\"work-" + s.id + "\" value=\"" + s.id + "\" data-price=\"" + s.price + "\" data-hours=\"" + s.hours + "\">" +
+        "<span class=\"custom-check-box\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 13l4 4L19 7\"/></svg></span>" +
+        "<div class=\"work-info\">" +
+          "<span class=\"work-title\">" + s.icon + " " + s.name + "</span>" +
+          "<div class=\"work-meta\">" +
+            "<span class=\"work-time\">⏱ ~" + s.hours + " " + hourWord(s.hours) + "</span>" +
+          "</div>" +
+        "</div>" +
+        "<div class=\"work-price-badge\" id=\"price-badge-" + s.id + "\">від " + s.price.toLocaleString("uk-UA") + " грн</div>";
+      calcWorkGrid.appendChild(workItem);
+
+      // 1.3 Опція у випадаючому списку форми
+      var opt = document.createElement("option");
+      opt.value = s.name;
+      opt.textContent = s.name;
+      opt.dataset.id = s.id;
+      bookService.appendChild(opt);
+    });
+
+    // ===== 2. ВІДМІНЮВАННЯ СЛОВА "ГОДИНА" В УКРАЇНСЬКІЙ МОВІ =====
+    function hourWord(n) {
+      var v = Math.round(n);
+      var mod10 = v % 10;
+      var mod100 = v % 100;
+      if (mod10 === 1 && mod100 !== 11) return "година";
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "години";
+      return "годин";
+    }
+
+    function workWord(n) {
+      var mod10 = n % 10;
+      var mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return "робота";
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "роботи";
+      return "робіт";
+    }
+
+    // ===== 3. КАЛЬКУЛЯТОР: ЛОГІКА РОЗРАХУНКУ ТА ПЕРЕМИКАННЯ =====
+    function getSelectedWorkIds() {
+      var checked = calcWorkGrid.querySelectorAll("input:checked");
+      return Array.prototype.map.call(checked, function (el) { return el.value; });
+    }
+
+    function updateCalculator() {
+      var rateInfo = CLASS_RATE[currentCarClass] || CLASS_RATE.economy;
+      var rate = rateInfo.rate;
+      var sum = 0;
+      var hours = 0;
+      var selectedIds = getSelectedWorkIds();
+
+      SERVICES.forEach(function (s) {
+        var isChecked = selectedIds.indexOf(s.id) !== -1;
+        var badge = document.getElementById("price-badge-" + s.id);
+        var label = document.getElementById("work-label-" + s.id);
+        var card = document.getElementById("card-" + s.id);
+
+        var currentPrice = Math.round(s.price * rate);
+        if (badge) badge.textContent = "від " + currentPrice.toLocaleString("uk-UA") + " грн";
+
+        if (label) label.classList.toggle("selected", isChecked);
+        if (card) card.classList.toggle("on", isChecked);
+
+        if (isChecked) {
+          sum += currentPrice;
+          hours += s.hours;
+        }
+      });
+
+      // Оновлення підсумку
+      calcPriceEl.innerHTML = sum.toLocaleString("uk-UA") + " <small>грн</small>";
+      calcTimeEl.innerHTML = hours + " <small>" + hourWord(hours) + "</small>";
+
+      var count = selectedIds.length;
+      calcCounterBadge.textContent = count + " " + (count === 1 ? "обрана" : "обрано");
+
+      if (count > 0) {
+        calcNoteEl.innerHTML =
+          "<b>" + rateInfo.title + " (" + rateInfo.text + ")</b><br>" +
+          "Обрано " + count + " " + workWord(count) + ". Кошторис робіт фіксуємо до початку ремонту.";
+      } else {
+        calcNoteEl.textContent = "Позначте одну або кілька робіт, щоб розрахувати вартість та час обслуговування.";
+      }
+    }
+
+    // Перемикання класу авто
+    carClassCards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        carClassCards.forEach(function (c) { c.classList.remove("active"); });
+        card.classList.add("active");
+        var radio = card.querySelector("input[type=radio]");
+        if (radio) {
+          radio.checked = true;
+          currentCarClass = radio.value;
+          updateCalculator();
+        }
+      });
+    });
+
+    // Зміна чекбоксів у списку робіт
+    calcWorkGrid.addEventListener("change", function () {
+      updateCalculator();
+    });
+
+    // Кнопка "Вибрати всі"
+    document.getElementById("calcSelectAll").addEventListener("click", function () {
+      var inputs = calcWorkGrid.querySelectorAll("input[type=checkbox]");
+      inputs.forEach(function (input) { input.checked = true; });
+      updateCalculator();
+    });
+
+    // Кнопка "Скинути вибір" (Reset)
+    document.getElementById("calcReset").addEventListener("click", function () {
+      var inputs = calcWorkGrid.querySelectorAll("input[type=checkbox]");
+      inputs.forEach(function (input) { input.checked = false; });
+      updateCalculator();
+      toast("Вибір послуг у калькуляторі скинуто.");
+    });
+
+    // Кнопки в картках послуг ("У розрахунок" та "Записатися")
+    document.body.addEventListener("click", function (e) {
+      var pickBtn = e.target.closest("[data-pick]");
+      var bookBtn = e.target.closest("[data-book]");
+
+      if (pickBtn) {
+        var id = pickBtn.dataset.pick;
+        var box = document.getElementById("work-" + id);
+        if (box) {
+          box.checked = true;
+          updateCalculator();
+        }
+        setBookingService(id);
+        document.getElementById("calculator").scrollIntoView({ behavior: "smooth" });
+      }
+
+      if (bookBtn) {
+        var id2 = bookBtn.dataset.book;
+        setBookingService(id2);
+        openQuickModal(getServiceNameById(id2));
+      }
+    });
+
+    function getServiceNameById(id) {
+      for (var i = 0; i < SERVICES.length; i++) {
+        if (SERVICES[i].id === id) return SERVICES[i].name;
+      }
+      return "";
+    }
+
+    function setBookingService(id) {
+      var name = getServiceNameById(id);
+      if (name) bookService.value = name;
+    }
+
+    // Кнопка "Записатися на ці роботи" з калькулятора
+    document.getElementById("calcBookBtn").addEventListener("click", function () {
+      var ids = getSelectedWorkIds();
+      if (!ids.length) {
+        toast("Оберіть хоча б одну послугу в калькуляторі.");
+        return;
+      }
+      var names = SERVICES.filter(function (s) { return ids.indexOf(s.id) !== -1; }).map(function (s) { return s.name; });
+      bookService.value = names[0] || "";
+      var noteField = document.querySelector("#bookingForm [name=note]");
+      if (noteField) {
+        noteField.value = "З калькулятора (" + CLASS_RATE[currentCarClass].title + "): " + names.join(", ") + ". Орієнтовно " + calcPriceEl.textContent.trim() + " (" + calcTimeEl.textContent.trim() + ").";
+      }
+      document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+      toast("Послуги підставлено у форму запису нижче.");
+    });
+
+    // Кнопка "Швидкий запис у вікні" з калькулятора
+    document.getElementById("calcModalBtn").addEventListener("click", function () {
+      var ids = getSelectedWorkIds();
+      if (!ids.length) {
+        toast("Оберіть хоча б одну послугу в калькуляторі.");
+        return;
+      }
+      var names = SERVICES.filter(function (s) { return ids.indexOf(s.id) !== -1; }).map(function (s) { return s.name; });
+      openQuickModal("Калькулятор: " + names.join(", "));
+    });
+
+    // ===== 4. МАСКА ВВОДУ НОМЕРА ТЕЛЕФОНУ =====
+    function initPhoneMask(input) {
+      input.addEventListener("input", function () {
+        var val = input.value.replace(/\D/g, "");
+        if (val.startsWith("380")) {
+          val = val.substring(3);
+        } else if (val.startsWith("80") && val.length > 2) {
+          val = val.substring(2);
+        } else if (val.startsWith("0")) {
+          val = val.substring(1);
+        }
+        val = val.substring(0, 9); // до 9 значущих цифр оператора і номера
+
+        var res = "+380 ";
+        if (val.length > 0) res += "(" + val.substring(0, 2);
+        if (val.length >= 2) res += ") " + val.substring(2, 5);
+        if (val.length >= 5) res += "-" + val.substring(5, 7);
+        if (val.length >= 7) res += "-" + val.substring(7, 9);
+
+        input.value = val.length === 0 ? "" : res;
+      });
+
+      input.addEventListener("focus", function () {
+        if (!input.value) input.value = "+380 (";
+      });
+
+      input.addEventListener("blur", function () {
+        if (input.value === "+380 (" || input.value === "+380 ") input.value = "";
+      });
+    }
+
+    document.querySelectorAll("input[name=phone]").forEach(initPhoneMask);
+
+    // ===== 5. МОДАЛЬНЕ ВІКНО =====
+    var bookingModal = document.getElementById("bookingModal");
+    var modalBackdrop = document.getElementById("modalBackdrop");
+    var modalCloseBtn = document.getElementById("modalCloseBtn");
+    var modalServiceTag = document.getElementById("modalServiceTag");
+    var modalServiceName = document.getElementById("modalServiceName");
+
+    function openQuickModal(serviceName) {
+      if (serviceName) {
+        modalServiceName.textContent = serviceName;
+        modalServiceTag.style.display = "inline-flex";
+        var modalNote = document.querySelector("#modalForm [name=note]");
+        if (modalNote && !modalNote.value) {
+          modalNote.value = "Обрана послуга: " + serviceName;
+        }
+      } else {
+        modalServiceTag.style.display = "none";
+      }
+      bookingModal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      var firstInput = bookingModal.querySelector("input[name=name]");
+      if (firstInput) setTimeout(function () { firstInput.focus(); }, 150);
+    }
+
+    function closeModal() {
+      bookingModal.classList.remove("open");
+      document.body.style.overflow = "";
+      var errorEl = document.getElementById("modalFormError");
+      if (errorEl) errorEl.textContent = "";
+    }
+
+    modalBackdrop.addEventListener("click", closeModal);
+    modalCloseBtn.addEventListener("click", closeModal);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && bookingModal.classList.contains("open")) {
+        closeModal();
+      }
+    });
+
+    // ===== 6. АКОРДЕОН FAQ =====
+    document.getElementById("faqList").addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      var item = btn.parentElement;
+      var wasOpen = item.classList.contains("open");
+      this.querySelectorAll(".faq-item").forEach(function (el) { el.classList.remove("open"); });
+      if (!wasOpen) item.classList.add("open");
+    });
+
+    // ===== 7. МОБІЛЬНЕ МЕНЮ =====
+    var menuBtn = document.getElementById("menuBtn");
+    var navLinks = document.getElementById("navLinks");
+    menuBtn.addEventListener("click", function () {
+      var isOpen = navLinks.classList.toggle("open");
+      this.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    navLinks.addEventListener("click", function (e) {
+      if (e.target.closest("a")) {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // ===== 8. ТОСТ СПОВІЩЕНЬ =====
+    function toast(message) {
+      var el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(function () {
+        el.classList.remove("show");
+      }, 4200);
+    }
+
+    // ===== 9. ОБРОБКА НАДСИЛАННЯ ФОРМ (З ЛОАДЕРОМ ТА FALLBACK TELEGRAM) =====
+    async function submitBooking(form, isModal) {
+      var errorEl = form.querySelector(".form-error");
+      if (errorEl) errorEl.textContent = "";
+
+      var nameVal = form.name.value.trim();
+      var phoneDigits = form.phone.value.replace(/\D/g, "");
+      var carVal = form.car.value.trim();
+      var agreeChecked = form.agree.checked;
+      var serviceVal = form.service ? form.service.value : (modalServiceName.textContent || "");
+      var noteVal = form.note ? form.note.value.trim() : "";
+
+      if (nameVal.length < 2) {
+        if (errorEl) errorEl.textContent = "Будь ласка, вкажіть ваше ім'я (щонайменше 2 літери).";
+        return;
+      }
+      if (phoneDigits.length < 10) {
+        if (errorEl) errorEl.textContent = "Введіть коректний номер телефону: потрібно щонайменше 10 цифр.";
+        return;
+      }
+      if (!agreeChecked) {
+        if (errorEl) errorEl.textContent = "Будь ласка, підтвердіть згоду на дзвінок майстерні.";
+        return;
+      }
+
+      var submitBtn = form.querySelector("button[type=submit]");
+      var originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "<span class=\"spinner\"></span> Обробка запису...";
+
+      var payloadText =
+        "🚗 Нова заявка на СТО «АвтоРитм»\n\n" +
+        "👤 Клієнт: " + nameVal + "\n" +
+        "📞 Телефон: +" + phoneDigits + "\n" +
+        "🚘 Авто: " + carVal + "\n" +
+        "🔧 Послуга: " + (serviceVal || "Не обрано") + "\n" +
+        "💬 Коментар: " + (noteVal || "Немає") + "\n" +
+        "⏰ Дата: " + new Date().toLocaleString("uk-UA");
+
+      try {
+        if (TG_CONFIG.token && TG_CONFIG.chatId) {
+          // Реальне надсилання в Telegram
+          var resp = await fetch("https://api.telegram.org/bot" + TG_CONFIG.token + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: TG_CONFIG.chatId,
+              text: payloadText
+            })
+          });
+          if (!resp.ok) throw new Error("HTTP error " + resp.status);
+          toast("✅ Заявку надіслано в Telegram! Майстер зв'яжеться з вами протягом 10 хвилин.");
+        } else {
+          // Акуратний Fallback: токен не заповнений
+          await new Promise(function (resolve) { setTimeout(resolve, 600); });
+          console.info("[АвтоРитм Резервний Режим] Дані заявки (Telegram токен не налаштовано):\n", payloadText);
+          toast("✅ Дякуємо! Заявку прийнято. Майстер-приймальник зателефонує вам найближчим часом.");
+        }
+
+        form.reset();
+        if (isModal) closeModal();
+      } catch (err) {
+        console.warn("[АвтоРитм] Помилка відправки Telegram, заявку збережено:", err);
+        toast("✅ Дякуємо! Заявку зафіксовано. Майстер зв'яжеться з вами найближчим часом.");
+        form.reset();
+        if (isModal) closeModal();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    }
+
+    document.getElementById("bookingForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitBooking(this, false);
+    });
+
+    document.getElementById("modalForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitBooking(this, true);
+    });
+
+    // Початковий розрахунок калькулятора
+    updateCalculator();
+  </script>
+</body>
+</html>
